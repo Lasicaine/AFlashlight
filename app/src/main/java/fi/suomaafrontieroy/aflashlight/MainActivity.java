@@ -12,6 +12,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ToggleButton;
 
 import static android.app.Notification.DEFAULT_VIBRATE;
@@ -28,6 +29,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         mButtonLight = (ToggleButton) findViewById(R.id.buttonLight);
 
         mCameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
