@@ -68,6 +68,11 @@ public class MainActivity extends Activity {
         setFlashlight(mButtonLight.isChecked());
         if (mButtonLight.isChecked()) {
             showNotification();
+        } else {
+            NotificationManager notificationManager =
+                    (NotificationManager) this.getSystemService(
+                            Context.NOTIFICATION_SERVICE);
+            notificationManager.cancelAll();
         }
     }
 
