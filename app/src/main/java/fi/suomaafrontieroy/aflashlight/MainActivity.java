@@ -13,7 +13,7 @@ import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ToggleButton;
+import android.widget.ImageView;
 
 import static android.app.Notification.DEFAULT_VIBRATE;
 import static android.app.Notification.PRIORITY_MAX;
@@ -23,7 +23,8 @@ public class MainActivity extends Activity {
     private static final String ACTION_STOP = "STOP";
     private CameraManager mCameraManager;
     private String mCameraId = null;
-    private ToggleButton mButtonLight;
+    private ImageView mButtonLight;
+    private Boolean lightOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +32,16 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        mButtonLight = (ToggleButton) findViewById(R.id.buttonLight);
+        mButtonLight = (ImageView) findViewById(R.id.buttonLight);
 
         mCameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
         mCameraId = getCameraId();
-        if (mCameraId==null) {
-            mButtonLight.setEnabled(false);
-        } else {
+        mButtonLight.setImageResource(R.drawable.power_off_512);
+        if (mCameraId != null) {
             mButtonLight.setEnabled(true);
+            lightOn = false;
+        } else {
+            mButtonLight.setEnabled(false);
         }
     }
 
@@ -46,6 +49,7 @@ public class MainActivity extends Activity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (ACTION_STOP.equals(intent.getAction())) {
+            lightOn = false;
             setFlashlight(false);
         }
     }
@@ -68,23 +72,31 @@ public class MainActivity extends Activity {
     }
 
     public void clickLight(View view) {
-        setFlashlight(mButtonLight.isChecked());
-        if (mButtonLight.isChecked()) {
-            showNotification();
-        } else {
+
+        if (lightOn) {
+            lightOn = false;
             NotificationManager notificationManager =
                     (NotificationManager) this.getSystemService(
                             Context.NOTIFICATION_SERVICE);
             notificationManager.cancelAll();
+        } else {
+            lightOn = true;
+            showNotification();
         }
+
+        setFlashlight(lightOn);
     }
 
     private void setFlashlight(boolean enabled) {
-        mButtonLight.setChecked(enabled);
         try {
             mCameraManager.setTorchMode(mCameraId, enabled);
         } catch (CameraAccessException e) {
             e.printStackTrace();
+        }
+        if (enabled) {
+            mButtonLight.setImageResource(R.drawable.power_on_512);
+        } else {
+            mButtonLight.setImageResource(R.drawable.power_off_512);
         }
     }
 
