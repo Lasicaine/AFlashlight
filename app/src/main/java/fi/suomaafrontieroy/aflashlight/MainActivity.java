@@ -1,8 +1,10 @@
 package fi.suomaafrontieroy.aflashlight;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.hardware.camera2.CameraAccessException;
@@ -69,6 +71,7 @@ public class MainActivity extends Activity {
                 }
             }
         } catch (CameraAccessException e) {
+            showNoFlashAlert();
             e.printStackTrace();
         }
         return null;
@@ -109,7 +112,7 @@ public class MainActivity extends Activity {
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this)
         .setContentTitle("AFlashlight")
         .setContentText("Press to turn off the flashlight")
-        .setTicker("Flashlight on")
+        .setTicker("Flashlight turn on")
         .setAutoCancel(true)
         .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
@@ -126,4 +129,19 @@ public class MainActivity extends Activity {
             mNotificationManager.cancel(NOTIFICATION_ID);
         }
     }
+
+    private void showNoFlashAlert() {
+        new AlertDialog.Builder(this)
+                .setMessage("Your device hardware does not support flashlight!")
+                .setIcon(android.R.drawable.ic_dialog_alert).setTitle("Error")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                }).show();
+    }
+    
 }
