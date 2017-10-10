@@ -51,6 +51,7 @@ public class MainActivity extends Activity {
         if (ACTION_STOP.equals(intent.getAction())) {
             lightOn = false;
             setFlashlight(false);
+            hideNotification();
         }
     }
 
@@ -75,10 +76,7 @@ public class MainActivity extends Activity {
 
         if (lightOn) {
             lightOn = false;
-            NotificationManager notificationManager =
-                    (NotificationManager) this.getSystemService(
-                            Context.NOTIFICATION_SERVICE);
-            notificationManager.cancelAll();
+            hideNotification();
         } else {
             lightOn = true;
             showNotification();
@@ -120,5 +118,12 @@ public class MainActivity extends Activity {
                         Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0,
                 notificationBuilder.build());
+    }
+
+    private void hideNotification() {
+        NotificationManager notificationManager =
+                (NotificationManager) this.getSystemService(
+                        Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
     }
 }
