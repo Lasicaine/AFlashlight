@@ -68,10 +68,11 @@ public class MainActivity extends Activity {
                 Integer facingDirection = c.get(CameraCharacteristics.LENS_FACING);
                 if (flashAvailable != null && flashAvailable && facingDirection != null && facingDirection == CameraCharacteristics.LENS_FACING_BACK) {
                     return id;
+                } else {
+                   showNoFlashAlert();
                 }
             }
         } catch (CameraAccessException e) {
-            showNoFlashAlert();
             e.printStackTrace();
         }
         return null;
@@ -133,7 +134,7 @@ public class MainActivity extends Activity {
     private void showNoFlashAlert() {
         new AlertDialog.Builder(this)
                 .setMessage("Your device hardware does not support flashlight!")
-                .setIcon(android.R.drawable.ic_dialog_alert).setTitle("Error")
+                .setIcon(android.R.drawable.ic_dialog_alert).setTitle("Warning")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
                     @Override
@@ -143,5 +144,10 @@ public class MainActivity extends Activity {
                     }
                 }).show();
     }
-    
+
+    @Override
+    protected void onDestroy() {
+        cancelNotification();
+        super.onDestroy();
+    }
 }
