@@ -27,33 +27,43 @@ public class MainActivity extends Activity {
     private String mCameraId = null;
     private ImageView mButtonLight;
     private NotificationManagerCompat mNotificationManager;
-    private Boolean lightOn;
+    private Boolean isLightOn;
     final int NOTIFICATION_ID = 23;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (savedInstanceState != null) {
+            isLightOn = savedInstanceState.getBoolean("isLightOn");
+        } else {
+            isLightOn = false;
+        }
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         mButtonLight = (ImageView) findViewById(R.id.buttonLight);
 
         mCameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
         mCameraId = getCameraId();
-        mButtonLight.setImageResource(R.drawable.power_off_512);
+        setButtonLightImage(isLightOn);
         if (mCameraId != null) {
             mButtonLight.setEnabled(true);
-            lightOn = false;
+            isLightOn = false;
         } else {
             mButtonLight.setEnabled(false);
         }
     }
 
     @Override
+    public void onSaveInstanceState (Bundle savedInstanceState) {
+        savedInstanceState.putBoolean("isLightOn", isLightOn);
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (ACTION_STOP.equals(intent.getAction())) {
-            lightOn = false;
+            isLightOn = false;
             setFlashlight(false);
             cancelNotification();
         }
@@ -80,15 +90,15 @@ public class MainActivity extends Activity {
 
     public void clickLight(View view) {
 
-        if (lightOn) {
-            lightOn = false;
+        if (isLightOn) {
+            isLightOn = false;
             cancelNotification();
         } else {
-            lightOn = true;
+            isLightOn = true;
             showNotification();
         }
 
-        setFlashlight(lightOn);
+        setFlashlight(isLightOn);
     }
 
     private void setFlashlight(boolean enabled) {
@@ -97,6 +107,10 @@ public class MainActivity extends Activity {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        setButtonLightImage(enabled);
+    }
+
+    private void setButtonLightImage(boolean enabled) {
         if (enabled) {
             mButtonLight.setImageResource(R.drawable.power_on_512);
         } else {
