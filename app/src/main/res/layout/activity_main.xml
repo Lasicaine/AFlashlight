@@ -18,4 +18,14 @@
         app:layout_constraintTop_toTopOf="parent"
         android:onClick="clickLight"/>
 
+    <ImageView
+        android:id="@+id/buttonScreen"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLight"
+        android:src="@drawable/screen_off_512"
+        android:onClick="clickBtnUseScreen"/>
 </android.support.constraint.ConstraintLayout>

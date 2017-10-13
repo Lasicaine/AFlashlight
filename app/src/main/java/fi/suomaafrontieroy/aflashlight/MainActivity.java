@@ -74,10 +74,9 @@ public class MainActivity extends Activity {
                 Integer facingDirection = c.get(CameraCharacteristics.LENS_FACING);
                 if (flashAvailable != null && flashAvailable && facingDirection != null && facingDirection == CameraCharacteristics.LENS_FACING_BACK) {
                     return id;
-                } else {
-                   showNoFlashAlert();
                 }
             }
+            showNoFlashAlert();
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -86,6 +85,11 @@ public class MainActivity extends Activity {
 
     public void clickLight(View view) {
         setFlashlight(!isLightOn);
+    }
+
+    public void clickBtnUseScreen(View view) {
+        Intent intent = new Intent(MainActivity.this, FullScreenBrightnessActivity.class);
+        startActivityForResult(intent, 0);
     }
 
     private void setFlashlight(boolean enabled) {
@@ -146,8 +150,8 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        finish();
+                        /*dialog.dismiss();
+                        finish();*/
                     }
                 }).show();
     }
