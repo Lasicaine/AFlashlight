@@ -1,12 +1,15 @@
 package fi.suomaafrontieroy.aflashlight;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
@@ -20,6 +23,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import java.lang.annotation.Target;
+
 import static android.support.v4.app.NotificationCompat.DEFAULT_VIBRATE;
 import static android.support.v4.app.NotificationManagerCompat.IMPORTANCE_HIGH;
 
@@ -31,7 +36,10 @@ public class MainActivity extends Activity {
     private ImageView mButtonFlashLight;
     private NotificationManagerCompat mNotificationManager;
     private Boolean isLightOn = false;
+    private Camera camera;
+    private Camera.Parameters parameters;
     final int NOTIFICATION_ID = 23;
+    private int SDK_VERSION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +50,29 @@ public class MainActivity extends Activity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             CheckWriteSettingsPermission();
+            mCameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
+            mCameraId = getCameraId();
+            SDK_VERSION = 1;
+        } else {
+            if (isFlashSupported()) {
+                camera = Camera.open();
+                parameters = camera.getParameters();
+            } else {
+                showNoFlashAlert();
+            }
+            SDK_VERSION = 2;
         }
 
-        mButtonFlashLight = (ImageView) findViewById(R.id.buttonFlashLight);
-        mCameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
-        mCameraId = getCameraId();
         if (savedInstanceState != null) {
             isLightOn = savedInstanceState.getBoolean("isLightOn");
         }
 
+        mButtonFlashLight = (ImageView) findViewById(R.id.buttonFlashLight);
+
         if (mCameraId != null) {
             setFlashlight(isLightOn);
-            mButtonFlashLight.setEnabled(true);
         } else {
-            mButtonFlashLight.setEnabled(false);
+            mButtonFlashLight.setVisibility(View.GONE);
         }
     }
 
@@ -72,6 +89,7 @@ public class MainActivity extends Activity {
         }
     }
 
+    @TargetApi(23)
     private String getCameraId() {
         try {
             String[] ids = mCameraManager.getCameraIdList();
@@ -83,7 +101,6 @@ public class MainActivity extends Activity {
                     return id;
                 }
             }
-            mButtonFlashLight.setVisibility(View.GONE);
             showNoFlashAlert();
         } catch (CameraAccessException e) {
             e.printStackTrace();
@@ -91,6 +108,12 @@ public class MainActivity extends Activity {
         return null;
     }
 
+    private boolean isFlashSupported() {
+        PackageManager pm = getPackageManager();
+        return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+    }
+
+    @TargetApi(23)
     private void CheckWriteSettingsPermission()
     {
             if (!Settings.System.canWrite(this)) {
@@ -111,18 +134,35 @@ public class MainActivity extends Activity {
     }
 
     private void setFlashlight(boolean enabled) {
-        try {
-            mCameraManager.setTorchMode(mCameraId, enabled);
-            setButtonLightImage(enabled);
-            if (enabled) {
-                showNotification();
-            } else {
-                cancelNotification();
-            }
-            isLightOn = enabled;
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
+
+        switch (SDK_VERSION) {
+            case 1:
+                try {
+                    mCameraManager.setTorchMode(mCameraId, enabled);
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 2:
+                if (enabled) {
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                    camera.setParameters(parameters);
+                    camera.startPreview();
+                } else {
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    camera.setParameters(parameters);
+                    camera.stopPreview();}
+                break;
+
         }
+        setButtonLightImage(enabled);
+        if (enabled) {
+            showNotification();
+        } else {
+            cancelNotification();
+        }
+        isLightOn = enabled;
+
     }
 
     private void setButtonLightImage(boolean enabled) {
