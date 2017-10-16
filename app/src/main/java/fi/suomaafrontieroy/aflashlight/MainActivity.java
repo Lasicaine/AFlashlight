@@ -49,7 +49,6 @@ public class MainActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            CheckWriteSettingsPermission();
             mCameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
             mCameraId = getCameraId();
             SDK_VERSION = 1;
@@ -129,6 +128,9 @@ public class MainActivity extends Activity {
     }
 
     public void clickBtnUseScreen(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            CheckWriteSettingsPermission();
+        }
         Intent intent = new Intent(MainActivity.this, FullScreenBrightnessActivity.class);
         startActivityForResult(intent, 0);
     }
