@@ -10,7 +10,10 @@ import android.graphics.BitmapFactory;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
@@ -25,7 +28,7 @@ public class MainActivity extends Activity {
     private static final String ACTION_STOP = "STOP";
     private CameraManager mCameraManager;
     private String mCameraId = null;
-    private ImageView mButtonLight;
+    private ImageView mButtonFlashLight;
     private NotificationManagerCompat mNotificationManager;
     private Boolean isLightOn = false;
     final int NOTIFICATION_ID = 23;
@@ -37,7 +40,11 @@ public class MainActivity extends Activity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        mButtonLight = (ImageView) findViewById(R.id.buttonLight);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            CheckWriteSettingsPermission();
+        }
+
+        mButtonFlashLight = (ImageView) findViewById(R.id.buttonFlashLight);
         mCameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
         mCameraId = getCameraId();
         if (savedInstanceState != null) {
@@ -46,9 +53,9 @@ public class MainActivity extends Activity {
 
         if (mCameraId != null) {
             setFlashlight(isLightOn);
-            mButtonLight.setEnabled(true);
+            mButtonFlashLight.setEnabled(true);
         } else {
-            mButtonLight.setEnabled(false);
+            mButtonFlashLight.setEnabled(false);
         }
     }
 
@@ -76,6 +83,7 @@ public class MainActivity extends Activity {
                     return id;
                 }
             }
+            mButtonFlashLight.setVisibility(View.GONE);
             showNoFlashAlert();
         } catch (CameraAccessException e) {
             e.printStackTrace();
@@ -83,7 +91,17 @@ public class MainActivity extends Activity {
         return null;
     }
 
-    public void clickLight(View view) {
+    private void CheckWriteSettingsPermission()
+    {
+            if (!Settings.System.canWrite(this)) {
+                Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+    }
+
+    public void clickBtnUseFlash(View view) {
         setFlashlight(!isLightOn);
     }
 
@@ -109,9 +127,9 @@ public class MainActivity extends Activity {
 
     private void setButtonLightImage(boolean enabled) {
         if (enabled) {
-            mButtonLight.setImageResource(R.drawable.power_on_512);
+            mButtonFlashLight.setImageResource(R.drawable.flashlight_on_512);
         } else {
-            mButtonLight.setImageResource(R.drawable.power_off_512);
+            mButtonFlashLight.setImageResource(R.drawable.flashlight_off_512);
         }
     }
 
@@ -163,4 +181,5 @@ public class MainActivity extends Activity {
         }
         super.onDestroy();
     }
+
 }
