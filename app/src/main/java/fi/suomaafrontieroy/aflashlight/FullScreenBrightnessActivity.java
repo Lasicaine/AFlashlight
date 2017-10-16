@@ -3,8 +3,10 @@ package fi.suomaafrontieroy.aflashlight;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -83,6 +85,9 @@ public class FullScreenBrightnessActivity extends Activity {
         }
     };
 
+    Context context;
+    int Brightness;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +111,15 @@ public class FullScreenBrightnessActivity extends Activity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         findViewById(R.id.btnScreenBrightnessOff).setOnTouchListener(mDelayHideTouchListener);
+
+        context = getApplicationContext();
+
+        //Getting Current screen brightness.
+        Brightness = Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS,0
+        );
+
+        //Changing Brightness.
+        Settings.System.putInt(context.getContentResolver(),Settings.System.SCREEN_BRIGHTNESS,255);
     }
 
     @Override
@@ -163,5 +177,12 @@ public class FullScreenBrightnessActivity extends Activity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    @Override
+    protected void onDestroy() {
+        //Restore Brightness.
+        Settings.System.putInt(context.getContentResolver(),Settings.System.SCREEN_BRIGHTNESS,Brightness);
+        super.onDestroy();
     }
 }

@@ -3,6 +3,7 @@
           package="fi.suomaafrontieroy.aflashlight">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 
     <application
         android:allowBackup="true"
