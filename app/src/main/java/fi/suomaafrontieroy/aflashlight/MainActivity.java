@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
             if (isFlashSupported()) {
                 camera = Camera.open();
                 parameters = camera.getParameters();
-            } else {
-                showNoFlashAlert();
             }
             SDK_VERSION = 2;
         }
@@ -98,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
                     return id;
                 }
             }
-            showNoFlashAlert();
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -199,21 +196,6 @@ public class MainActivity extends AppCompatActivity {
             mNotificationManager.cancel(NOTIFICATION_ID);
         }
     }
-
-    private void showNoFlashAlert() {
-        new AlertDialog.Builder(this)
-                .setMessage("Your device hardware does not support flashlight!")
-                .setIcon(android.R.drawable.ic_dialog_alert).setTitle("Warning")
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        /*dialog.dismiss();
-                        finish();*/
-                    }
-                }).show();
-    }
-
 
     @Override
     protected void onDestroy() {
