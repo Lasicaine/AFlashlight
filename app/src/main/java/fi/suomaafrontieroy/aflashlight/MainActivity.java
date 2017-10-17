@@ -1,7 +1,6 @@
 package fi.suomaafrontieroy.aflashlight;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -19,16 +18,15 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import java.lang.annotation.Target;
-
 import static android.support.v4.app.NotificationCompat.DEFAULT_VIBRATE;
 import static android.support.v4.app.NotificationManagerCompat.IMPORTANCE_HIGH;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private static final String ACTION_STOP = "STOP";
     private CameraManager mCameraManager;
@@ -215,6 +213,7 @@ public class MainActivity extends Activity {
                     }
                 }).show();
     }
+
 
     @Override
     protected void onDestroy() {
