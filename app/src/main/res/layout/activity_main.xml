@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
+    android:id="@+id/activity_view"
     tools:context="fi.suomaafrontieroy.aflashlight.MainActivity">
 
     <ImageView

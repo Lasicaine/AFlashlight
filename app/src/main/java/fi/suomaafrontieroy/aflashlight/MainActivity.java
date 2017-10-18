@@ -16,12 +16,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import static android.support.v4.app.NotificationCompat.DEFAULT_VIBRATE;
 import static android.support.v4.app.NotificationManagerCompat.IMPORTANCE_HIGH;
@@ -108,14 +110,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @TargetApi(23)
-    private void CheckWriteSettingsPermission()
+    private boolean CheckWriteSettingsPermission()
     {
-            if (!Settings.System.canWrite(this)) {
-                Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
+        return Settings.System.canWrite(this);
     }
 
     public void clickBtnUseFlash(View view) {
@@ -123,11 +120,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickBtnUseScreen(View view) {
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            CheckWriteSettingsPermission();
+            if (CheckWriteSettingsPermission()) {
+                startScreenLight();
+            }
+            else {
+                showNoWriteSettingsPermissionSnackbar();
+            }
         }
-        Intent intent = new Intent(MainActivity.this, FullScreenBrightnessActivity.class);
-        startActivityForResult(intent, 0);
+        else startScreenLight();
+
     }
 
     private void setFlashlight(boolean enabled) {
@@ -162,6 +165,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void startScreenLight() {
+        Intent intent = new Intent(MainActivity.this, FullScreenBrightnessActivity.class);
+        startActivity(intent);
+    }
+
     private void setButtonLightImage(boolean enabled) {
         if (enabled) {
             mButtonFlashLight.setImageResource(R.drawable.flashlight_on_512);
@@ -177,11 +185,11 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent =
                 PendingIntent.getActivity(this,0,activityIntent,0);
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this)
-        .setContentTitle("AFlashlight")
-        .setContentText("Press to turn off the flashlight")
-        .setTicker("Flashlight turn on")
-        .setAutoCancel(true)
-        .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("AFlashlight")
+                .setContentText("Press to turn off the flashlight")
+                .setTicker("Flashlight turn on")
+                .setAutoCancel(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setContentIntent(pendingIntent)
                 .setVibrate(new long[]{DEFAULT_VIBRATE})
@@ -197,6 +205,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void showNoWriteSettingsPermissionSnackbar() {
+        Snackbar.make(MainActivity.this.findViewById(R.id.activity_view), "Write settings permission is needed to use a screen brightness", Snackbar.LENGTH_LONG)
+                .setAction("SETTINGS", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openApplicationSettings();
+
+                        Toast.makeText(getApplicationContext(),
+                                "Allow an app to modify system settings",
+                                Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                })
+                .show();
+    }
+
+    @TargetApi(23)
+    public void openApplicationSettings() {
+        Intent appSettingsIntent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
+        appSettingsIntent.setData(Uri.parse("package:" + getPackageName()));
+        startActivityForResult(appSettingsIntent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (CheckWriteSettingsPermission()) {
+                startScreenLight();
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Write settings permission is not granted",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
+    
     @Override
     protected void onDestroy() {
         if (mCameraId != null) {
