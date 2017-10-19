@@ -8,4 +8,6 @@
     <string name="btnSettings">SETTINGS</string>
     <string name="msgAllowWriteSettingsPermission">Allow an app to modify system settings</string>
     <string name="msgWriteSettingsPermissionIsNotGranted">Write settings permission is not granted</string>
+    <string name="titleAboutApp">About AFlashlight</string>
+    <string name="action_about">About</string>
 </resources>
