@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AFlashlight</string>
+    <string name="btnSettings">НАСТРОЙКИ</string>
+    <string name="action_about">О программе</string>
+    <string name="cmdTurnOffFlashlight">Нажмите для отключения фонарика</string>
+    <string name="msgAllowWriteSettingsPermission">Разрешите приложению изменять системные настройки</string>
+    <string name="msgExplanationWriteSettingsPermissionNeeded">Разрешение изменения настроек требуется для изменения яркости экрана</string>
+    <string name="msgFlashlightTurnOn">Фонарик включён</string>
+    <string name="msgWriteSettingsPermissionIsNotGranted">Отсутствует разрешение на изменение настроек</string>
+    <string name="titleAboutApp">О программе AFlashlight</string>
+</resources>
