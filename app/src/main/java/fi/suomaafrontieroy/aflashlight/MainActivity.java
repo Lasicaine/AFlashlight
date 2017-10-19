@@ -185,9 +185,9 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent =
                 PendingIntent.getActivity(this,0,activityIntent,0);
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle("AFlashlight")
-                .setContentText("Press to turn off the flashlight")
-                .setTicker("Flashlight turn on")
+                .setContentTitle(String.valueOf(R.string.app_name))
+                .setContentText(String.valueOf(R.string.cmdTurnOffFlashlight))
+                .setTicker(String.valueOf(R.string.msgFlashlightTurnOn))
                 .setAutoCancel(true)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
@@ -206,14 +206,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showNoWriteSettingsPermissionSnackbar() {
-        Snackbar.make(MainActivity.this.findViewById(R.id.activity_view), "Write settings permission is needed to use a screen brightness", Snackbar.LENGTH_LONG)
-                .setAction("SETTINGS", new View.OnClickListener() {
+        Snackbar.make(MainActivity.this.findViewById(R.id.activity_view), R.string.msgExplanationWriteSettingsPermissionNeeded, Snackbar.LENGTH_LONG)
+                .setAction(R.string.btnSettings, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         openApplicationSettings();
 
                         Toast.makeText(getApplicationContext(),
-                                "Allow an app to modify system settings",
+                                R.string.msgAllowWriteSettingsPermission,
                                 Toast.LENGTH_SHORT)
                                 .show();
                     }
@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
                 startScreenLight();
             } else {
                 Toast.makeText(getApplicationContext(),
-                        "Write settings permission is not granted",
+                        R.string.msgWriteSettingsPermissionIsNotGranted,
                         Toast.LENGTH_SHORT)
                         .show();
             }
