@@ -1,10 +1,8 @@
 package fi.suomaafrontieroy.aflashlight;
 
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             isLightOn = savedInstanceState.getBoolean("isLightOn");
         }
 
-        mButtonFlashLight = (ImageView) findViewById(R.id.buttonFlashLight);
+        mButtonFlashLight = (ImageView) findViewById(R.id.button_flashlight);
 
         if (mCameraId != null) {
             setFlashlight(isLightOn);
@@ -213,8 +211,8 @@ public class MainActivity extends AppCompatActivity {
                 PendingIntent.getActivity(this,0,activityIntent,0);
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this)
                 .setContentTitle(String.valueOf(R.string.app_name))
-                .setContentText(String.valueOf(R.string.cmdTurnOffFlashlight))
-                .setTicker(String.valueOf(R.string.msgFlashlightTurnOn))
+                .setContentText(String.valueOf(R.string.cmd_turn_off_flashlight))
+                .setTicker(String.valueOf(R.string.msg_flashlight_turn_on))
                 .setAutoCancel(true)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
@@ -233,14 +231,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showNoWriteSettingsPermissionSnackbar() {
-        Snackbar.make(MainActivity.this.findViewById(R.id.activity_view), R.string.msgExplanationWriteSettingsPermissionNeeded, Snackbar.LENGTH_LONG)
-                .setAction(R.string.btnSettings, new View.OnClickListener() {
+        Snackbar.make(MainActivity.this.findViewById(R.id.activity_view), R.string.msg_explanation_write_settings_permission_needed, Snackbar.LENGTH_LONG)
+                .setAction(R.string.btn_settings, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         openApplicationSettings();
 
                         Toast.makeText(getApplicationContext(),
-                                R.string.msgAllowWriteSettingsPermission,
+                                R.string.msg_allow_write_settings_permission,
                                 Toast.LENGTH_SHORT)
                                 .show();
                     }
@@ -262,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
                 startScreenLight();
             } else {
                 Toast.makeText(getApplicationContext(),
-                        R.string.msgWriteSettingsPermissionIsNotGranted,
+                        R.string.msg_write_settings_permission_is_not_granted,
                         Toast.LENGTH_SHORT)
                         .show();
             }

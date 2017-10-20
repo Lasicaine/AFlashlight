@@ -2,12 +2,13 @@
     <string name="app_name">AFlashlight</string>
 
     <string name="title_activity_full_screen_brightness" translatable="false">AFlashlight</string>
-    <string name="cmdTurnOffFlashlight">Press to turn off the flashlight</string>
-    <string name="msgFlashlightTurnOn">Flashlight turn on</string>
-    <string name="msgExplanationWriteSettingsPermissionNeeded">Write settings permission is needed to use a screen brightness</string>
-    <string name="btnSettings">SETTINGS</string>
-    <string name="msgAllowWriteSettingsPermission">Allow an app to modify system settings</string>
-    <string name="msgWriteSettingsPermissionIsNotGranted">Write settings permission is not granted</string>
-    <string name="titleAboutApp">About AFlashlight</string>
+    <string name="cmd_turn_off_flashlight">Press to turn off the flashlight</string>
+    <string name="msg_flashlight_turn_on">Flashlight turn on</string>
+    <string name="msg_explanation_write_settings_permission_needed">Write settings permission is needed to use a screen brightness</string>
+    <string name="btn_settings">SETTINGS</string>
+    <string name="msg_allow_write_settings_permission">Allow an app to modify system settings</string>
+    <string name="msg_write_settings_permission_is_not_granted">Write settings permission is not granted</string>
+    <string name="title_about_app">About AFlashlight</string>
     <string name="action_about">About</string>
+    <string name="app_version">Version: </string>
 </resources>
