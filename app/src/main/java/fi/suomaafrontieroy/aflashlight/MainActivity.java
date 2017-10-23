@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        if (savedInstanceState != null) {
+            isLightOn = savedInstanceState.getBoolean("isLightOn");
+        }
+
+        mButtonFlashLight = (ImageView) findViewById(R.id.button_flashlight);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mCameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
             mCameraId = getCameraId();
@@ -59,23 +65,20 @@ public class MainActivity extends AppCompatActivity {
             }
             SDK_VERSION = 2;
         }
-
-        if (savedInstanceState != null) {
-            isLightOn = savedInstanceState.getBoolean("isLightOn");
-        }
-
-        mButtonFlashLight = (ImageView) findViewById(R.id.button_flashlight);
-
-        if (mCameraId != null) {
-            setFlashlight(isLightOn);
-        } else {
-            mButtonFlashLight.setVisibility(View.GONE);
-        }
+        onRestoreState();
     }
 
     @Override
     public void onSaveInstanceState (Bundle savedInstanceState) {
         savedInstanceState.putBoolean("isLightOn", isLightOn);
+    }
+
+    public void onRestoreState() {
+        if (mCameraId != null || isFlashSupported()) {
+            setFlashlight(isLightOn);
+        } else {
+            mButtonFlashLight.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -130,8 +133,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isFlashSupported() {
+        try {
         PackageManager pm = getPackageManager();
         return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+        }
+        catch (Exception e) {
+        e.printStackTrace();
+        }
+        return false;
     }
 
     @TargetApi(23)
@@ -169,14 +178,17 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case 2:
-                if (enabled) {
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                try {
+                    if (enabled) {
+                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                    } else {
+                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    }
                     camera.setParameters(parameters);
-                    camera.startPreview();
-                } else {
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                    camera.setParameters(parameters);
-                    camera.stopPreview();}
+                    camera.stopPreview();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
 
         }
