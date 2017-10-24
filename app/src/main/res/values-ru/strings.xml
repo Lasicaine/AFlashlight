@@ -9,5 +9,5 @@
     <string name="msg_flashlight_turn_on">Фонарик включён</string>
     <string name="msg_write_settings_permission_is_not_granted">Отсутствует разрешение на изменение настроек</string>
     <string name="title_about_app">О программе AFlashlight</string>
-    <string name="app_version">Версия:</string>
+    <string name="app_version">Версия</string>
 </resources>
