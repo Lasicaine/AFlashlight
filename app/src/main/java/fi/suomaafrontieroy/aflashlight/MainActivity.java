@@ -31,6 +31,7 @@ import static android.support.v4.app.NotificationManagerCompat.IMPORTANCE_HIGH;
 public class MainActivity extends AppCompatActivity {
 
     private static final String ACTION_STOP = "STOP";
+    private static final String CHANNEL_ID = "fi.suomaafrontieroy.aflashlight";
     private CameraManager mCameraManager;
     private String mCameraId = null;
     private ImageView mButtonFlashLight;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onSaveInstanceState (Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putBoolean("isLightOn", isLightOn);
     }
 
@@ -221,10 +223,10 @@ public class MainActivity extends AppCompatActivity {
         activityIntent.setAction(ACTION_STOP);
         PendingIntent pendingIntent =
                 PendingIntent.getActivity(this,0,activityIntent,0);
-        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle(String.valueOf(R.string.app_name))
-                .setContentText(String.valueOf(R.string.cmd_turn_off_flashlight))
-                .setTicker(String.valueOf(R.string.msg_flashlight_turn_on))
+        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.cmd_turn_off_flashlight))
+                .setTicker(getString(R.string.msg_flashlight_turn_on))
                 .setAutoCancel(true)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
