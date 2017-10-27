@@ -18,7 +18,8 @@
         app:layout_constraintRight_toLeftOf="@+id/button_flashlight"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/screen_off_512"
-        android:onClick="clickBtnUseScreen"/>
+        android:onClick="clickBtnUseScreen"
+        android:contentDescription="@string/button_screen_content_description"/>
 
     <ImageView
         android:id="@+id/button_flashlight"
@@ -28,5 +29,6 @@
         app:layout_constraintLeft_toRightOf="@+id/button_screen"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:onClick="clickBtnUseFlash"/>
+        android:onClick="clickBtnUseFlash"
+        android:contentDescription="@string/button_flashlight_content_description"/>
 </android.support.constraint.ConstraintLayout>
