@@ -257,6 +257,7 @@ public class MainActivity extends AppCompatActivity {
                                 .show();
                     }
                 })
+                .setActionTextColor(getResources().getColor(R.color.colorAccent))
                 .show();
     }
 
