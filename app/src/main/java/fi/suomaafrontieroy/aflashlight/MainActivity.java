@@ -287,6 +287,9 @@ public class MainActivity extends AppCompatActivity {
         if (mCameraId != null) {
             setFlashlight(false);
         }
+        if ((SDK_VERSION == 2) && isFlashSupported()) {
+            camera.release();
+        }
         super.onDestroy();
     }
 
