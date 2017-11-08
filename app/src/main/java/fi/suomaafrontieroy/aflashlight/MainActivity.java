@@ -136,11 +136,11 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isFlashSupported() {
         try {
-        PackageManager pm = getPackageManager();
-        return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+            PackageManager pm = getPackageManager();
+            return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
         }
         catch (Exception e) {
-        e.printStackTrace();
+            e.printStackTrace();
         }
         return false;
     }
@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    
+
     @Override
     protected void onDestroy() {
         if (mCameraId != null) {
