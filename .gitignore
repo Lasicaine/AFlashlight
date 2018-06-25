@@ -16,6 +16,7 @@ out/
 # Gradle files
 .gradle/
 build/
+*/build/
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -34,11 +35,8 @@ captures/
 
 # Intellij
 *.iml
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/gradle.xml
-.idea/dictionaries
-.idea/libraries
+*.iws
+.idea
 
 # Keystore files
 *.jks
@@ -53,3 +51,9 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
+
+# DS
+.DS_Store
+
+# Other
+release/
