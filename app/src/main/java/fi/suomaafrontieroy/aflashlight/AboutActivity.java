@@ -26,7 +26,7 @@ public class AboutActivity extends AppCompatActivity {
         }
 
         String result = getResources().getString(R.string.app_version) + " " + version;
-        TextView textViewVersionInfo = (TextView) findViewById(R.id.txt_app_version);
+        TextView textViewVersionInfo = findViewById(R.id.txt_app_version);
         textViewVersionInfo.setText(result);
     }
 }

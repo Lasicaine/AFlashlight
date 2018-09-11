@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             isLightOn = savedInstanceState.getBoolean("isLightOn");
         }
 
-        mButtonFlashLight = (ImageView) findViewById(R.id.button_flashlight);
+        mButtonFlashLight = findViewById(R.id.button_flashlight);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mCameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
