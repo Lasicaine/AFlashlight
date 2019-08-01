@@ -6,9 +6,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -124,11 +124,11 @@ public class FullScreenBrightnessActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         //Getting Current screen brightness.
-        Brightness = Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS,0
+        Brightness = Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0
         );
 
         //Changing Brightness.
-        Settings.System.putInt(context.getContentResolver(),Settings.System.SCREEN_BRIGHTNESS,255);
+        Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 255);
     }
 
     @Override
@@ -191,7 +191,7 @@ public class FullScreenBrightnessActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         //Restore Brightness.
-        Settings.System.putInt(context.getContentResolver(),Settings.System.SCREEN_BRIGHTNESS,Brightness);
+        Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, Brightness);
         super.onDestroy();
     }
 }

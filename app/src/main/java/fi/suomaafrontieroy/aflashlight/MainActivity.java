@@ -14,19 +14,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import com.google.android.material.snackbar.Snackbar;
 
-import static android.support.v4.app.NotificationCompat.DEFAULT_VIBRATE;
-import static android.support.v4.app.NotificationManagerCompat.IMPORTANCE_HIGH;
+import static androidx.core.app.NotificationCompat.DEFAULT_VIBRATE;
+import static androidx.core.app.NotificationManagerCompat.IMPORTANCE_HIGH;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private Camera camera;
     private Camera.Parameters parameters;
     final int NOTIFICATION_ID = 23;
-    private int SDK_VERSION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,19 +58,17 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mCameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
             mCameraId = getCameraId();
-            SDK_VERSION = 1;
         } else {
             if (isFlashSupported()) {
                 camera = Camera.open();
                 parameters = camera.getParameters();
             }
-            SDK_VERSION = 2;
         }
         onRestoreState();
     }
 
     @Override
-    public void onSaveInstanceState (Bundle savedInstanceState) {
+    public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putBoolean("isLightOn", isLightOn);
     }
@@ -91,20 +89,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        switch (id) {
-            case R.id.action_about:
-                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (id == R.id.action_about) {
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+            startActivity(intent);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
 
     }
 
@@ -138,16 +134,14 @@ public class MainActivity extends AppCompatActivity {
         try {
             PackageManager pm = getPackageManager();
             return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
     @TargetApi(23)
-    private boolean CheckWriteSettingsPermission()
-    {
+    private boolean CheckWriteSettingsPermission() {
         return Settings.System.canWrite(this);
     }
 
@@ -160,40 +154,36 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (CheckWriteSettingsPermission()) {
                 startScreenLight();
-            }
-            else {
+            } else {
                 showNoWriteSettingsPermissionSnackbar();
             }
-        }
-        else startScreenLight();
+        } else startScreenLight();
 
     }
 
     private void setFlashlight(boolean enabled) {
 
-        switch (SDK_VERSION) {
-            case 1:
-                try {
-                    mCameraManager.setTorchMode(mCameraId, enabled);
-                } catch (CameraAccessException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case 2:
-                try {
-                    if (enabled) {
-                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                    } else {
-                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                    }
-                    camera.setParameters(parameters);
-                    camera.stopPreview();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            try {
+                mCameraManager.setTorchMode(mCameraId, enabled);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                if (enabled) {
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                } else {
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                }
+                camera.setParameters(parameters);
+                camera.stopPreview();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         setButtonLightImage(enabled);
         if (enabled) {
             showNotification();
@@ -219,10 +209,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void showNotification() {
         Intent activityIntent = new Intent(
-                this,MainActivity.class);
+                this, MainActivity.class);
         activityIntent.setAction(ACTION_STOP);
         PendingIntent pendingIntent =
-                PendingIntent.getActivity(this,0,activityIntent,0);
+                PendingIntent.getActivity(this, 0, activityIntent, 0);
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.cmd_turn_off_flashlight))
@@ -287,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
         if (mCameraId != null) {
             setFlashlight(false);
         }
-        if ((SDK_VERSION == 2) && isFlashSupported()) {
+        if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.M) && isFlashSupported()) {
             camera.release();
         }
         super.onDestroy();
