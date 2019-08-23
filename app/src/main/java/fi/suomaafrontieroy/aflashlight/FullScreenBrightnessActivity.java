@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 /**

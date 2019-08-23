@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorBackground"
-        android:id="@+id/activity_view"
-        tools:context="fi.suomaafrontieroy.aflashlight.MainActivity">
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context="fi.suomaafrontieroy.aflashlight.MainActivity">
 
     <ImageView
-            android:id="@+id/button_screen"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/button_flashlight"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/screen_off_512"
-            android:onClick="clickBtnUseScreen"
-            android:contentDescription="@string/button_screen_content_description"/>
+        android:id="@+id/button_screen"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:contentDescription="@string/button_screen_content_description"
+        android:onClick="clickBtnUseScreen"
+        android:src="@drawable/screen_off_512"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/button_flashlight"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-            android:id="@+id/button_flashlight"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/button_screen"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="clickBtnUseFlash"
-            android:contentDescription="@string/button_flashlight_content_description"/>
+        android:id="@+id/button_flashlight"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:contentDescription="@string/button_flashlight_content_description"
+        android:onClick="clickBtnUseFlash"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/button_screen"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

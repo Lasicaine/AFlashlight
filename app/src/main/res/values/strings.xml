@@ -1,6 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AFlashlight</string>
-
     <string name="title_activity_full_screen_brightness" translatable="false">AFlashlight</string>
     <string name="cmd_turn_off_flashlight">Press to turn off the flashlight</string>
     <string name="msg_flashlight_turn_on">Flashlight turn on</string>
