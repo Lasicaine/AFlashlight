@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     @Override
@@ -161,11 +160,9 @@ public class MainActivity extends AppCompatActivity {
                 showNoWriteSettingsPermissionSnackbar();
             }
         } else startScreenLight();
-
     }
 
     private void setFlashlight(boolean enabled) {
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             try {
@@ -194,7 +191,6 @@ public class MainActivity extends AppCompatActivity {
             cancelNotification();
         }
         isLightOn = enabled;
-
     }
 
     private void startScreenLight() {
@@ -286,5 +282,4 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
-
 }
