@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AFlashlight.iml" filepath="$PROJECT_DIR$/AFlashlight.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AFlashlight.iml" filepath="$PROJECT_DIR$/AFlashlight.iml" group="AFlashlight" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="AFlashlight/app" />
     </modules>
   </component>
 </project>
