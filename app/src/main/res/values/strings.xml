@@ -11,7 +11,7 @@
     <string name="title_about_app">About AFlashlight</string>
     <string name="action_about">About</string>
     <string name="app_version">Version</string>
-    <string name="about_copyright" translatable="false"><b>Copyright © Aleksandr Antomonov 2019</b></string>
+    <string name="about_copyright" translatable="false"><b>Copyright © Aleksandr Antomonov 2020</b></string>
     <string name="app_icon_content_description">An application icons</string>
     <string name="button_screen_content_description">Button using a screen like a flashlight</string>
     <string name="button_flashlight_content_description">Button using a flashlight</string>

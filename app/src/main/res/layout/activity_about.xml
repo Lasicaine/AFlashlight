@@ -32,7 +32,7 @@
                 android:layout_height="128dp"
                 android:contentDescription="@string/app_icon_content_description"
                 android:padding="5dp"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@drawable/ic_aflashlight" />
 
             <TextView
                 android:id="@+id/txt_app_version"
