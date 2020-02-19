@@ -3,12 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="fi.suomaafrontieroy.aflashlight">
 
-    <uses-permission android:name="android.permission.CAMERA" android:required="false"/>
+    <uses-permission
+        android:name="android.permission.CAMERA"
+        android:required="false" />
 
-    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:allowBackup="false"
@@ -22,8 +29,8 @@
             android:name=".MainActivity"
             android:launchMode="singleInstance">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -32,8 +39,9 @@
             android:label="@string/title_activity_full_screen_brightness"
             android:theme="@style/FullscreenTheme">
         </activity>
-        <activity android:name=".AboutActivity"
-            android:parentActivityName=".MainActivity" >
+        <activity
+            android:name=".AboutActivity"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
