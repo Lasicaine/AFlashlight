@@ -8,9 +8,9 @@
     <string name="btn_settings">SETTINGS</string>
     <string name="msg_allow_write_settings_permission">Allow an app to modify system settings</string>
     <string name="msg_write_settings_permission_is_not_granted">Write settings permission is not granted</string>
-    <string name="title_about_app">About AFlashlight</string>
+    <string name="title_about_app">About app</string>
     <string name="action_about">About</string>
-    <string name="app_version">Version</string>
+    <string name="app_version">Version %1s</string>
     <string name="about_copyright" translatable="false"><b>Copyright © Aleksandr Antomonov 2020</b></string>
     <string name="app_icon_content_description">An application icons</string>
     <string name="button_screen_content_description">Button using a screen like a flashlight</string>
