@@ -103,6 +103,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (mCameraManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mCameraManager.registerTorchCallback(torchCallback, null);
+        }
+    }
+
+    @TargetApi(23)
+    CameraManager.TorchCallback torchCallback = new CameraManager.TorchCallback() {
+        @Override
+        public void onTorchModeUnavailable(@NonNull String cameraId) {
+            super.onTorchModeUnavailable(cameraId);
+        }
+
+        @Override
+        public void onTorchModeChanged(@NonNull String cameraId, boolean enabled) {
+            super.onTorchModeChanged(cameraId, enabled);
+            if (isLightOn != enabled) {
+                setFlashlight(enabled);
+            }
+        }
+    };
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (ACTION_STOP.equals(intent.getAction())) {

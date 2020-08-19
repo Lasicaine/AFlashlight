@@ -6,8 +6,8 @@ android {
         applicationId "fi.suomaafrontieroy.aflashlight"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 10
-        versionName "1.2.4"
+        versionCode 12
+        versionName "1.2.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
